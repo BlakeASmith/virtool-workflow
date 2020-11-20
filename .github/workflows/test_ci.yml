@@ -36,4 +36,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage-report
-          path: $GITHUB_WORKSPACE/coverage.xml
+          path: coverage.xml
+
+

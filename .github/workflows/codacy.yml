@@ -1,12 +1,12 @@
 name: coverage-reporter
 
 on:
-  push:
-    branches:
-      - "*"
+  pull_request:
+    types: [closed]
 
 jobs:
   codacy-coverage-reporter:
+    if: github.event.pull_request.merged == 'true'
     runs-on: ubuntu-latest
     name: Update Coverage Report
     steps:
