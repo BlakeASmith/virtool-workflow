@@ -2,7 +2,7 @@ import aiohttp
 import pytest
 from aiohttp import web
 
-from tests.virtool_workflow.api.mock_api import mock_routes
+from tests.virtool_workflow.api.mocks.mock_api import mock_routes
 
 
 @pytest.fixture
