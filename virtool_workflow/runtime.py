@@ -7,6 +7,7 @@ from virtool_workflow import discovery, FixtureScope
 from virtool_workflow.analysis.runtime import AnalysisWorkflowEnvironment
 from virtool_workflow.api.analysis import AnalysisProvider
 from virtool_workflow.api.indexes import IndexProvider
+from virtool_workflow.api.samples import SampleProvider
 from virtool_workflow.api.scope import api_fixtures
 from virtool_workflow.config.configuration import load_config, config_fixtures
 from virtool_workflow.environment import WorkflowEnvironment
@@ -71,16 +72,21 @@ async def init_environment(
             indexes_api = IndexProvider(
                 index_id=job.args["index_id"],
                 ref_id=job.args["ref_id"],
-                index_path=index_path,
                 http=http,
                 jobs_api_url=jobs_api_url,
             )
         except KeyError:
             indexes_api = None
 
+        try:
+            sample_api = SampleProvider(job.args["sample_id", http, jobs_api_url])
+        except KeyError:
+            sample_api = None
+
         scope["environment"] = AnalysisWorkflowEnvironment(job,
                                                            analysis_provider=analysis_api,
-                                                           index_provider=indexes_api)
+                                                           index_provider=indexes_api,
+                                                           sample_provider=sample_api)
     else:
         scope["environment"] = WorkflowEnvironment(job)
 
