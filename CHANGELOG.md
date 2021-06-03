@@ -43,7 +43,5 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Move `virtool/workflow` Dockerfile to repository root
 - Github action to create github releases
     
-## 0.1.0
-
 
 
