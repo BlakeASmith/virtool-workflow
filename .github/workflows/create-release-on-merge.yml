@@ -30,6 +30,7 @@ jobs:
         with:
             version: ${{ steps.get_version.outputs.version }}
 
+
       - name: Create release
         if: ${{ steps.check_release.outputs.release }} == 'release'
         uses: actions/create-release@v1
