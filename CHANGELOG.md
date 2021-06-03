@@ -1,4 +1,5 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
@@ -32,6 +33,13 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Re-implement read trimming + caching
 - Support colored logging
 - Add integration tests against Virtool's jobs API
+- Move `virtool/workflow` Dockerfile to repository root
+
+### Added
+
+- Github action for testing the docker build
+- Github action for testing the PyPi package validity
+- Github action for verifying this changelog
 - Move `virtool/workflow` Dockerfile to repository root
     
 
