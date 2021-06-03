@@ -36,6 +36,7 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 
 ### Added
 
+- Github action to create new release branches
 - Github action for testing the docker build
 - Github action for testing the PyPi package validity
 - Github action for verifying this changelog
