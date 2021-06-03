@@ -1,13 +1,13 @@
 name: Create Github Release
 on:
   pull_request:
-    types: [closed]
+      #types: [closed]
     branches:
         - master
 
 jobs:
   create-release:
-    if: github.event.pull_request.merged == true
+      #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,10 +20,10 @@ jobs:
             echo "##[set-output name=release;]$(echo ${GITHUB_REF#refs/heads/} | cut -f1 -d'/')"
             echo "##[set-output name=tag;]$(echo ${GITHUB_REF#refs/heads/} | cut -f2 -d'/')"
 
-      - name: Extract Release Notes
-        if: ${{ steps.extract_tag.outputs.release }} == 'release'
-        id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v1
+      - name: Update Changelog
+        uses: thomaseizinger/keep-a-changelog-new-release@v1
+        with:
+        version: ${{ steps.extract_tag.outputs.tag }}
 
       - name: Create release
         if: ${{ steps.extract_tag.outputs.release }} == 'release'
