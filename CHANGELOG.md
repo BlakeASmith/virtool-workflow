@@ -45,4 +45,3 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Github action to run integration tests
 - Github action to performa a nightly build
     - Releases `virtool/workflow:nightly` docker image
-
