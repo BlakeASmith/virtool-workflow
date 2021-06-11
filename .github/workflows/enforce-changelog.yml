@@ -13,7 +13,19 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v2
-        - uses: dangoslen/changelog-enforcer@v2
+          
+        - name: Run Changelog Enforcer
+          uses: dangoslen/changelog-enforcer@v2
           with:
             changeLogPath: 'CHANGELOG.md'
             skipLabels: 'nochangelog'
+          continue-on-error: true
+
+        - name: Make Reminder Comment
+          if: success()
+          uses: mshick/add-pr-comment@v1
+          with:
+            message: ":warning: The `CHANGELOG.md` file has not been updated!"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token-user-login: 'github-actions[bot]' 
+          allow-repeats: false 
