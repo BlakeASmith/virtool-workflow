@@ -4,16 +4,21 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - "release/*"
       - "master"
       - "develop"
 
 jobs:
     changelog:
-        runs-on: ubuntu-latest
-        steps:
+      runs-on: ubuntu-latest
+      steps:
         - uses: actions/checkout@v2
+
+        - name: Extract branch name
+          shell: bash
+          run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          id: extract_branch
+
         - uses: dangoslen/changelog-enforcer@v2
+        - if: ${{ contains("release", steps.extract_branch.branch) }}
           with:
             changeLogPath: 'CHANGELOG.md'
-            skipLabels: 'nochangelog'
