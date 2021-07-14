@@ -4,6 +4,7 @@ from ..config.fixtures import jobs_api_url
 from ..data_model import Job
 from .client import authenticated_http, http
 from .jobs import acquire_job, push_status
+from .uploads import download_input_file, input_files
 
 
 @fixture
@@ -21,4 +22,6 @@ __all__ = [
     "push_status",
     "jobs_api_url",
     "job",
+    "download_input_file",
+    "input_files",
 ]
