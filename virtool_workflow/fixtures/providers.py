@@ -1,5 +1,6 @@
 import logging
 from typing import Protocol, Callable, Optional
+from types import ModuleType
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +75,17 @@ class FixtureGroup(FixtureProvider, dict):
 
     def fixtures(self):
         return self
+
+
+def isfixture(function: callable):
+    """Check that a callable is a fixture."""
+    return hasattr(function, "is_workflow_fixture") and function.is_workflow_fixture is True
+
+class ModuleFixtureGroup(FixtureGroup):
+    def __init__(self, module: ModuleType):
+        return super(ModuleFixtureGroup, self).__init__(
+            *[fixture for fixture in vars(module).values() if isfixture(fixture)]
+        )
 
 
 class InstanceFixtureGroup(FixtureGroup):

@@ -8,7 +8,7 @@ from tests.api.mocks.mock_sample_routes import TEST_SAMPLE_ID
 from virtool_workflow.analysis.skewer import (calculate_trimming_min_length,
                                               skewer)
 from virtool_workflow.data_model import Job
-from virtool_workflow.runtime.providers import sample_provider
+from virtool_workflow.analysis.fixtures import sample_provider
 
 
 @pytest.mark.slow

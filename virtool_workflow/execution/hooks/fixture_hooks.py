@@ -1,6 +1,5 @@
 import logging
 import pprint
-from inspect import signature
 from typing import List, Any, Callable
 
 from virtool_workflow import utils

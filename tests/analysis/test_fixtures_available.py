@@ -14,8 +14,8 @@ from virtool_workflow.environment import WorkflowEnvironment
 
 
 @pytest.fixture
-async def environment(http, jobs_api_url):
-    env = WorkflowEnvironment(virtool_workflow.runtime.fixtures.analysis)
+async def environment(runtime, http, jobs_api_url):
+    env = runtime
 
     env["http"] = http
     env["jobs_api_url"] = jobs_api_url

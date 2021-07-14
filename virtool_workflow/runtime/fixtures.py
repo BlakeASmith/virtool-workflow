@@ -1,54 +1,19 @@
 import logging
-from virtool_workflow import hooks
-from virtool_workflow.analysis import fixtures as analysis_fixtures
-from virtool_workflow.config import fixtures as config
-from virtool_workflow.environment import WorkflowEnvironment
-from virtool_workflow.execution.run_in_executor import (run_in_executor,
-                                                        thread_pool_executor)
-from virtool_workflow.execution.run_subprocess import run_subprocess
-from virtool_workflow.fixtures import FixtureGroup
-from virtool_workflow.results import results
-from virtool_workflow.runtime.providers import providers
-from virtool_workflow.config.fixtures import job_id
-from virtool_workflow.api.scope import api_fixtures
-from virtool_workflow.analysis import reads
+from .. import hooks
+from ..fixtures.workflow_fixture import fixture
+from ..fixtures import builtins as builtin_fixtures
+from ..environment import WorkflowEnvironment
+from ..fixtures.providers import ModuleFixtureGroup
 
 logger = logging.getLogger(__name__)
 
-_workflow_fixtures = [
-    job_id,
-    results,
-    config.work_path,
-    config.mem,
-    config.proc,
-    run_in_executor,
-    thread_pool_executor,
-    run_subprocess,
-]
 
-workflow = FixtureGroup(
-    *_workflow_fixtures,
-    providers["job"],
-    **api_fixtures,
-)
-"""A :class:`FixtureGroup` containing all fixtures available within workflows."""
-
-analysis = FixtureGroup(
-    *_workflow_fixtures,
-    **reads.fixtures,
-    **dict(providers, **api_fixtures),
-    **{k: getattr(analysis_fixtures, k)
-       for k in analysis_fixtures.__all__},
-)
-"""A :class:`FixtureGroup` containing all fixtures excusive to analysis workflows."""
-
-runtime = FixtureGroup(**analysis)
-"""A :class:`FixtureGroup` containing all fixtures available to the runtime."""
-
-
-@runtime.fixture
+@fixture
 def environment(is_analysis_workflow: bool):
     if is_analysis_workflow:
+        from ..analysis import fixtures as analysis_fixtures
+
+        group = ModuleFixtureGroup(analysis_fixtures)
 
         @hooks.on_success
         async def upload_results(results, analysis_provider):
@@ -60,6 +25,7 @@ def environment(is_analysis_workflow: bool):
         async def delete(analysis_provider):
             await analysis_provider.delete()
 
-        return WorkflowEnvironment(analysis)
+    else:
+        group = ModuleFixtureGroup(builtin_fixtures)
 
-    return WorkflowEnvironment(workflow)
+    return WorkflowEnvironment(group)

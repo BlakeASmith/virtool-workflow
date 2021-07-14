@@ -3,15 +3,16 @@ from typing import Callable, Union
 
 import pytest
 
+import virtool_workflow.analysis.fixtures
 from virtool_workflow.environment import WorkflowEnvironment
 from virtool_workflow.fixtures.scoping import workflow_fixtures
-from virtool_workflow.runtime import fixtures
+from virtool_workflow.fixtures.providers import ModuleFixtureGroup
 
 
 @pytest.fixture
 async def runtime(http, jobs_api_url):
     async with WorkflowEnvironment(
-            fixtures.runtime
+        ModuleFixtureGroup(virtool_workflow.analysis.fixtures)
     ) as _runtime:
         _runtime["http"] = http
         _runtime["jobs_api_url"] = jobs_api_url
